@@ -4,6 +4,20 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Jobs Lah — Find Jobs in Singapore & Brunei</title>
+<meta name="description" content="Find full-time, part-time, remote and freelance jobs across Singapore and Brunei on Jobs Lah. Browse vacancies, use free career tools, and apply — no sign-up needed." />
+<link rel="canonical" href="https://jobslah-landing.netlify.app/" />
+<meta name="theme-color" content="#1857ff" />
+<!-- Open Graph / social share (update URLs if you rename the Netlify site) -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Jobs Lah" />
+<meta property="og:title" content="Jobs Lah — Find Jobs in Singapore & Brunei" />
+<meta property="og:description" content="Browse full-time, part-time, remote and freelance jobs across Singapore and Brunei. Free career tools, no sign-up needed." />
+<meta property="og:url" content="https://jobslah-landing.netlify.app/" />
+<meta property="og:image" content="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=70" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Jobs Lah — Find Jobs in Singapore & Brunei" />
+<meta name="twitter:description" content="Browse jobs across Singapore and Brunei. Free career tools, no sign-up needed." />
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=70" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,8 +30,12 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  }
   body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:6px}
   .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
   .btn{display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:inherit;font-weight:600;font-size:15px;border-radius:999px;padding:12px 22px;transition:.2s transform,.2s box-shadow,.2s background}
   .btn-primary{background:var(--brand);color:#fff}
@@ -50,7 +68,7 @@
   .hero-media .float{position:absolute;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;display:flex;align-items:center;gap:10px}
   .hero-media .float .fic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:#fff}
   .hero-media .float b{font-size:15px}.hero-media .float span{font-size:12px;color:var(--ink-soft)}
-  .hero-media .f1{top:22px;left:-14px}.hero-media .f2{bottom:24px;right:-14px}
+  .hero-media .f1{top:22px;left:-14px}
 
   /* SEARCH */
   .search-card{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:12px;display:flex;gap:8px;align-items:stretch;max-width:860px}
@@ -215,7 +233,7 @@
 <header class="nav">
   <div class="wrap nav-inner">
     <a class="logo" href="#"><span class="dot">◆</span> Jobs Lah</a>
-    <nav class="nav-links">
+    <nav class="nav-links" id="primary-nav">
       <a href="#jobs">Search Jobs</a>
       <a href="#employers">Explore Companies</a>
       <a href="#tools">Career Tools</a>
@@ -224,7 +242,7 @@
     <div class="nav-cta">
       <a class="btn btn-ghost" href="#tools">Resume Builder</a>
       <a class="btn btn-primary" href="#jobs">Find Jobs</a>
-      <button class="hamburger" aria-label="Menu">☰</button>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">☰</button>
     </div>
   </div>
 </header>
@@ -239,7 +257,7 @@
         <p class="hero-sub">Full-time, part-time, remote and freelance roles across every industry — all in one clean, distraction-free place. No sign-up needed to start browsing.</p>
       </div>
       <div class="hero-media">
-        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=70" alt="People working together in an office" />
+        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=70" alt="People working together in an office" width="900" height="420" decoding="async" fetchpriority="high" />
         <div class="float f1"><div class="fic" style="background:var(--brand)">✓</div><div><b>Verified jobs</b><br><span>From trusted employers</span></div></div>
       </div>
     </div>
@@ -250,14 +268,14 @@
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
         <div style="flex:1">
           <label>What</label>
-          <input type="text" id="searchKw" placeholder="Job title, keyword or company" />
+          <input type="text" id="searchKw" aria-label="Job title, keyword or company" placeholder="Job title, keyword or company" />
         </div>
       </div>
       <div class="search-field">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
         <div style="flex:1">
           <label>Where</label>
-          <select id="searchLoc">
+          <select id="searchLoc" aria-label="Location">
             <option value="">All locations</option>
             <optgroup label="Singapore"><option value="sg">Singapore</option></optgroup>
             <optgroup label="Brunei"><option value="bn">Brunei</option></optgroup>
@@ -560,7 +578,7 @@ window.__toast=toast;
 
 function cardHTML(j){
   const badge=j.isNew?'<span class="badge-new">New</span>':'';
-  return `<div class="job" data-id="${j.id}">
+  return `<div class="job" data-id="${j.id}" role="button" tabindex="0" aria-label="${j.title} at ${j.company}">
     <div class="job-top"><div class="job-logo-wrap"><div class="job-logo" style="background:${j.color}">${j.logo}</div><div>${badge}<div class="posted">${j.posted}</div></div></div>
       <button class="save" title="Save job" aria-label="Save job" onclick="event.stopPropagation();this.classList.toggle('saved');window.__toast(this.classList.contains('saved')?'Saved to your list':'Removed from list')">${IC.bookmark}</button></div>
     <div><h3>${j.title}</h3><div class="co">${j.company} · ${j.location}</div></div>
@@ -580,7 +598,10 @@ function render(){
   if(page<1) page=1;
   const start=(page-1)*PAGE;
   grid.innerHTML=filtered.slice(start,start+PAGE).map(cardHTML).join('');
-  grid.querySelectorAll('.job').forEach(el=>el.addEventListener('click',()=>openModal(+el.dataset.id)));
+  grid.querySelectorAll('.job').forEach(el=>{
+    el.addEventListener('click',()=>openModal(+el.dataset.id));
+    el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal(+el.dataset.id);}});
+  });
   renderPager(totalPages);
 }
 
@@ -647,7 +668,7 @@ function openModal(id){
   modal.querySelector('.modal-close').onclick=closeModal;
   modal.querySelector('#mSave').onclick=()=>toast('Saved “'+j.title+'” to your list');
   modal.querySelector('#mApply').onclick=()=>{closeModal();toast('Application started for “'+j.title+'” — good luck!');};
-  overlay.classList.add('open'); document.body.style.overflow='hidden';
+  openOverlay();
 }
 
 /* ---------- info modal (about / privacy / terms / contact) ---------- */
@@ -664,9 +685,30 @@ function openInfo(key){
     <div class="modal-foot"><span style="font-size:13px;color:var(--ink-soft)">Jobs Lah · Singapore &amp; Brunei</span><button class="btn btn-primary" id="infoOk">Got it</button></div>`;
   modal.querySelector('.modal-close').onclick=closeModal;
   modal.querySelector('#infoOk').onclick=closeModal;
-  overlay.classList.add('open'); document.body.style.overflow='hidden';
+  openOverlay();
 }
-function closeModal(){overlay.classList.remove('open');document.body.style.overflow='';}
+let lastFocused=null;
+function openOverlay(){
+  lastFocused=document.activeElement;
+  overlay.classList.add('open');
+  document.body.style.overflow='hidden';
+  const focusable=modal.querySelector('.modal-close, button, [href], input, select, textarea');
+  if(focusable) focusable.focus();
+}
+function closeModal(){
+  overlay.classList.remove('open');
+  document.body.style.overflow='';
+  if(lastFocused && lastFocused.focus){lastFocused.focus();lastFocused=null;}
+}
+// keep Tab focus inside the open modal
+overlay.addEventListener('keydown',e=>{
+  if(e.key!=='Tab'||!overlay.classList.contains('open')) return;
+  const f=[...modal.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(el=>!el.disabled&&el.offsetParent!==null);
+  if(!f.length) return;
+  const first=f[0], last=f[f.length-1];
+  if(e.shiftKey && document.activeElement===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first.focus();}
+});
 
 /* ---------- career tips: full articles ---------- */
 const ARTICLES=[
@@ -711,7 +753,7 @@ function openArticle(i){
     <div class="modal-foot"><span style="font-size:13px;color:var(--ink-soft)">Jobs Lah · Career Tips</span><button class="btn btn-primary" id="artOk">Done</button></div>`;
   modal.querySelector('.modal-close').onclick=closeModal;
   modal.querySelector('#artOk').onclick=closeModal;
-  overlay.classList.add('open'); document.body.style.overflow='hidden';
+  openOverlay();
 }
 
 /* ---------- tool: Salary Calculator (computes from real listing data) ---------- */
@@ -752,7 +794,7 @@ function openSalary(){
     modal.querySelector('#sc-amount').textContent=`S$${lo.toLocaleString()} – ${hi.toLocaleString()}`;
     modal.querySelector('#sc-note').textContent=`Based on ${monthly.length||'similar'} ${CATLABEL[cat]} listing${monthly.length===1?'':'s'} on Jobs Lah`;
   };
-  overlay.classList.add('open'); document.body.style.overflow='hidden';
+  openOverlay();
 }
 
 /* ---------- tool: Interview Guide ---------- */
@@ -801,7 +843,7 @@ function openResume(){
     w.document.write(`<html><head><title>Resume</title></head><body style="max-width:700px;margin:40px auto;padding:0 20px">${previewHTML()}<script>onload=()=>print()<\/script></body></html>`);
     w.document.close();
   };
-  overlay.classList.add('open'); document.body.style.overflow='hidden';
+  openOverlay();
 }
 const TOOLS={resume:openResume,salary:openSalary,interview:openInterview};
 
@@ -835,15 +877,64 @@ document.querySelectorAll('.emp').forEach(el=>el.addEventListener('click',()=>{
   document.getElementById('searchKw').value=el.textContent.trim();document.getElementById('searchLoc').value='';runSearch();
 }));
 const burger=document.querySelector('.hamburger');
-if(burger){burger.addEventListener('click',()=>document.body.classList.toggle('nav-open'));
-  document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('nav-open')));}
+if(burger){
+  burger.addEventListener('click',()=>{
+    const open=document.body.classList.toggle('nav-open');
+    burger.setAttribute('aria-expanded',open?'true':'false');
+  });
+  document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>{
+    document.body.classList.remove('nav-open');burger.setAttribute('aria-expanded','false');
+  }));
+}
+
+/* ---------- a11y: make custom-clickable elements keyboard operable ---------- */
+document.querySelectorAll('.cat[data-cat], .trending .chip, .emp, [data-tool], [data-article], [data-info], [data-scroll], #clearFilters').forEach(el=>{
+  if(!el.hasAttribute('tabindex')) el.setAttribute('tabindex','0');
+  if(!el.hasAttribute('role')) el.setAttribute('role','button');
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});
+});
+
+/* ---------- offline fallback (only used when jobs.json can't be fetched, e.g. file://) ---------- */
+const FALLBACK_JOBS=[
+  {title:"Software Engineer",company:"TechNova",location:"one-north, Singapore",country:"sg",type:"Full-time",mode:"Hybrid",exp:"2–4 yrs",salary:"S$5,000 – 7,500",cat:"tech"},
+  {title:"Frontend Developer",company:"GreenCloud",location:"Remote",country:"sg",type:"Full-time",mode:"Remote",exp:"3+ yrs",salary:"S$5,500 – 8,000",cat:"tech"},
+  {title:"Data Analyst",company:"InsightLab",location:"Raffles Place, Singapore",country:"sg",type:"Full-time",mode:"Hybrid",exp:"2–4 yrs",salary:"S$4,500 – 6,500",cat:"data"},
+  {title:"Digital Marketing Executive",company:"BrightMedia",location:"Bugis, Singapore",country:"sg",type:"Full-time",mode:"Hybrid",exp:"2–3 yrs",salary:"S$3,200 – 4,500",cat:"marketing"},
+  {title:"Accountant",company:"Ledger & Co",location:"Shenton Way, Singapore",country:"sg",type:"Full-time",mode:"On-site",exp:"3–5 yrs",salary:"S$4,000 – 5,500",cat:"finance"},
+  {title:"Accounts Assistant",company:"Borneo Retail",location:"Bandar Seri Begawan, Brunei",country:"bn",type:"Full-time",mode:"On-site",exp:"Entry level",salary:"B$1,400 – 1,900",cat:"finance"},
+  {title:"Registered Nurse",company:"ParkView Clinic",location:"Gadong, Brunei",country:"bn",type:"Full-time",mode:"On-site",exp:"2+ yrs",salary:"B$2,200 – 3,000",cat:"healthcare"},
+  {title:"Graphic Designer",company:"Studio Nine",location:"Tanjong Pagar, Singapore",country:"sg",type:"Full-time",mode:"Hybrid",exp:"2–4 yrs",salary:"S$3,500 – 4,800",cat:"design"},
+  {title:"Content Writer",company:"WriteRoom",location:"Remote",country:"sg",type:"Freelance",mode:"Remote",exp:"2+ yrs",salary:"S$40 – 60",cat:"marketing",per:"per hour"}
+];
+
+/* ---------- SEO: JobPosting structured data (Google for Jobs) ---------- */
+const EMP_TYPE={'Full-time':'FULL_TIME','Part-time':'PART_TIME','Contract':'CONTRACTOR','Internship':'INTERN','Freelance':'CONTRACTOR'};
+const POSTED_DAYS={'Today':0,'1 day ago':1,'2 days ago':2,'3 days ago':3,'4 days ago':4,'5 days ago':5,'1 week ago':7,'2 weeks ago':14};
+function isoFromPosted(p){const d=new Date();d.setDate(d.getDate()-(POSTED_DAYS[p]||0));return d.toISOString().slice(0,10);}
+function injectJobLd(){
+  document.getElementById('job-ld')?.remove();
+  const items=JOBS.map((j,i)=>{
+    const r=parseRange(j.salary), cur=j.country==='bn'?'BND':'SGD', unit=j.per==='per hour'?'HOUR':'MONTH';
+    const jp={"@type":"JobPosting",title:j.title,
+      description:(CAT[j.cat]?CAT[j.cat].about(j.company):j.title),
+      datePosted:isoFromPosted(j.posted),employmentType:EMP_TYPE[j.type]||'OTHER',
+      hiringOrganization:{"@type":"Organization",name:j.company},
+      jobLocation:{"@type":"Place",address:{"@type":"PostalAddress",addressLocality:j.location.split(',')[0].trim(),addressCountry:j.country==='bn'?'BN':'SG'}}};
+    if(r) jp.baseSalary={"@type":"MonetaryAmount",currency:cur,value:{"@type":"QuantitativeValue",minValue:r[0],maxValue:r[1],unitText:unit}};
+    return {"@type":"ListItem",position:i+1,item:jp};
+  });
+  const s=document.createElement('script');s.type='application/ld+json';s.id='job-ld';
+  s.textContent=JSON.stringify({"@context":"https://schema.org","@type":"ItemList",itemListElement:items});
+  document.head.appendChild(s);
+}
+function initJobs(data){_id=0;JOBS=data.map(build);filtered=JOBS.slice();page=1;render();updateStats();injectJobLd();}
 
 /* ---------- load jobs from jobs.json ---------- */
 grid.innerHTML='<div class="empty"><p>Loading jobs…</p></div>';
 fetch('jobs.json')
   .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
-  .then(data=>{_id=0;JOBS=data.map(build);filtered=JOBS.slice();page=1;render();updateStats();})
-  .catch(()=>{grid.innerHTML='<div class="empty"><div class="empty-ic">'+IC.briefcase+'</div><h3>Couldn\'t load job listings</h3><p>Open this page through a web server (e.g. http://localhost) so jobs.json can load.</p></div>';pager.innerHTML='';});
+  .then(initJobs)
+  .catch(()=>{initJobs(FALLBACK_JOBS);toast('Offline preview — showing a sample of jobs');});
 
 /* ---------- real stats derived from the data ---------- */
 function updateStats(){
