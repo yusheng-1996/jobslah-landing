@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jobs Lah — Find Jobs in Singapore & Brunei</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;--bg-soft:#f6f8fb;--ink:#0d1b2a;--ink-soft:#5a6b7b;--line:#e7ecf2;
+    --brand:#1857ff;--brand-ink:#0b3ecc;--brand-soft:#eaf0ff;--accent:#00c2a8;--accent-soft:#e2fbf6;--amber:#ff8a3d;
+    --card:#ffffff;--shadow:0 1px 2px rgba(13,27,42,.04),0 8px 24px rgba(13,27,42,.06);
+    --shadow-lg:0 20px 50px rgba(24,87,255,.15);--radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:inherit;font-weight:600;font-size:15px;border-radius:999px;padding:12px 22px;transition:.2s transform,.2s box-shadow,.2s background}
+  .btn-primary{background:var(--brand);color:#fff}
+  .btn-primary:hover{background:var(--brand-ink);transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--brand);color:var(--brand)}
+
+  /* NAV */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.02em}
+  .logo .dot{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--accent));display:grid;place-items:center;color:#fff;font-size:18px}
+  .nav-links{display:flex;gap:30px;align-items:center;font-weight:500;color:var(--ink-soft)}
+  .nav-links a{cursor:pointer}
+  .nav-links a:hover{color:var(--brand)}
+  .nav-cta{display:flex;gap:12px;align-items:center}
+  .hamburger{display:none;background:none;border:none;font-size:24px;cursor:pointer}
+
+  /* HERO */
+  .hero{position:relative;padding:64px 0 40px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(1000px 500px at 80% -10%,var(--brand-soft),transparent 60%),radial-gradient(700px 400px at 0% 30%,var(--accent-soft),transparent 55%)}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center;margin-bottom:34px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);color:var(--ink-soft);font-weight:600;font-size:13px;padding:7px 14px;border-radius:999px;box-shadow:var(--shadow)}
+  .eyebrow .pip{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+  h1.hero-title{font-size:clamp(34px,5vw,54px);line-height:1.08;letter-spacing:-.03em;margin:20px 0 14px;font-weight:800;max-width:16ch}
+  h1.hero-title .grad{background:linear-gradient(120deg,var(--brand),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero-sub{font-size:18px;color:var(--ink-soft);max-width:52ch}
+  .hero-media{position:relative}
+  .hero-media img{width:100%;height:420px;object-fit:cover;border-radius:24px;box-shadow:var(--shadow-lg);background:linear-gradient(135deg,var(--brand-soft),var(--accent-soft))}
+  .hero-media .float{position:absolute;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;display:flex;align-items:center;gap:10px}
+  .hero-media .float .fic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:#fff}
+  .hero-media .float b{font-size:15px}.hero-media .float span{font-size:12px;color:var(--ink-soft)}
+  .hero-media .f1{top:22px;left:-14px}.hero-media .f2{bottom:24px;right:-14px}
+
+  /* SEARCH */
+  .search-card{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:12px;display:flex;gap:8px;align-items:stretch;max-width:860px}
+  .search-field{display:flex;align-items:center;gap:10px;flex:1;padding:8px 14px;border-radius:14px}
+  .search-field + .search-field{border-left:1px solid var(--line)}
+  .search-field svg{flex:none;color:var(--ink-soft)}
+  .search-field label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft)}
+  .search-field input,.search-field select{border:none;outline:none;font-family:inherit;font-size:15px;font-weight:500;color:var(--ink);width:100%;background:transparent;cursor:pointer}
+  .search-card .btn{align-self:center;white-space:nowrap;padding:14px 26px}
+  .trending{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px}
+  .trending .t-label{font-size:13px;color:var(--ink-soft);font-weight:600}
+  .chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-size:13.5px;font-weight:500;color:var(--ink-soft);transition:.15s;cursor:pointer}
+  .chip:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
+  .stats{display:flex;gap:38px;margin-top:44px;flex-wrap:wrap}
+  .stat .n{font-size:26px;font-weight:800;letter-spacing:-.02em}
+  .stat .l{font-size:13.5px;color:var(--ink-soft);font-weight:500}
+
+  section{padding:60px 0}
+  .sec-head{margin-bottom:32px;max-width:680px}
+  .sec-head .kick{color:var(--brand);font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+  .sec-head h2{font-size:clamp(26px,3.6vw,36px);letter-spacing:-.02em;margin:8px 0 10px;font-weight:800}
+  .sec-head p{color:var(--ink-soft);font-size:16.5px}
+
+  /* CATEGORIES */
+  .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .cat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:flex;align-items:center;gap:16px;transition:.2s;cursor:pointer}
+  .cat:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:transparent}
+  .cat .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;flex:none}
+  .cat .ic svg{width:26px;height:26px}
+  .cat h3{font-size:16.5px;font-weight:700}
+  .cat span{font-size:13px;color:var(--ink-soft)}
+
+  /* JOBS */
+  .jobs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .job{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;transition:.2s;display:flex;flex-direction:column;gap:14px;cursor:pointer}
+  .job:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:transparent}
+  .job-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .job-logo-wrap{display:flex;gap:12px;align-items:center}
+  .job-logo{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-weight:800;color:#fff;font-size:16px;flex:none}
+  .posted{font-size:12px;color:var(--ink-soft)}
+  .badge-new{font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:3px 9px;border-radius:999px}
+  .save{background:none;border:none;cursor:pointer;color:var(--ink-soft);line-height:0;padding:2px}
+  .save svg{width:20px;height:20px}
+  .save:hover{color:var(--brand)}
+  .save.saved{color:var(--brand)}
+  .job h3{font-size:16.5px;font-weight:700;letter-spacing:-.01em}
+  .job .co{font-size:13.5px;color:var(--ink-soft)}
+  .job-tags{display:flex;flex-wrap:wrap;gap:8px}
+  .tag{font-size:12px;font-weight:600;padding:5px 11px;border-radius:8px;background:var(--bg-soft);color:var(--ink-soft)}
+  .job-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:14px;margin-top:auto}
+  .salary{font-weight:700;font-size:14.5px}
+  .apply{font-weight:600;font-size:13.5px;color:var(--brand)}
+  .center{text-align:center;margin-top:38px}
+  .empty{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--ink-soft)}
+  .empty-ic{width:64px;height:64px;border-radius:18px;background:var(--bg-soft);display:grid;place-items:center;margin:0 auto 16px;color:var(--ink-soft)}
+  .empty-ic svg{width:30px;height:30px}
+  .empty h3{color:var(--ink);font-size:19px;margin-bottom:6px}
+  .empty p{margin-bottom:18px}
+
+  /* TOOLS */
+  .tools{background:var(--bg-soft)}
+  .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .tool{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;transition:.2s}
+  .tool:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .tool .ic{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;margin-bottom:16px}
+  .tool .ic svg{width:28px;height:28px}
+  .tool h3{font-size:19px;font-weight:700;margin-bottom:6px}
+  .tool p{color:var(--ink-soft);font-size:14.5px;margin-bottom:16px}
+  .tool a{font-weight:600;color:var(--brand);font-size:14.5px;cursor:pointer}
+  .tool a:hover{text-decoration:underline}
+
+  /* EMPLOYERS */
+  .emp-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+  .emp{border:1px solid var(--line);border-radius:14px;padding:16px 26px;font-weight:700;color:var(--ink-soft);background:var(--card);min-width:140px;text-align:center;transition:.2s;cursor:pointer}
+  .emp:hover{color:var(--brand);border-color:var(--brand)}
+
+  /* TIPS */
+  .tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .tip{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--card);transition:.2s;display:flex;flex-direction:column}
+  .tip:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+  .tip .cover{height:160px;background-size:cover;background-position:center;background-repeat:no-repeat}
+  .tip .body{padding:20px}
+  .tip .meta{font-size:12.5px;color:var(--brand);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+  .tip h3{font-size:17px;font-weight:700;margin:8px 0 10px;line-height:1.3}
+  .tip a{font-weight:600;color:var(--brand);font-size:14px;cursor:pointer}
+
+  /* CTA BAND */
+  .band{background:linear-gradient(120deg,var(--brand),#3f7bff 60%,var(--accent));border-radius:28px;padding:56px;color:#fff;text-align:center;position:relative;overflow:hidden}
+  .band h2{font-size:clamp(26px,3.5vw,38px);font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
+  .band p{opacity:.92;font-size:17px;max-width:48ch;margin:0 auto 26px}
+  .band .btn{background:#fff;color:var(--brand)}
+  .band .btn:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.2)}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:56px 0 32px;color:var(--ink-soft)}
+  .foot-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:34px;margin-bottom:36px}
+  .foot-col h4{color:var(--ink);font-size:14px;font-weight:700;margin-bottom:14px}
+  .foot-col a{display:block;font-size:14px;margin-bottom:9px;cursor:pointer}
+  .foot-col a:hover{color:var(--brand)}
+  .foot-bottom{border-top:1px solid var(--line);padding-top:24px;font-size:13.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .foot-bottom a{cursor:pointer}.foot-bottom a:hover{color:var(--brand)}
+
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;z-index:100;background:rgba(13,27,42,.5);backdrop-filter:blur(4px);display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--card);border-radius:24px;max-width:680px;width:100%;box-shadow:0 30px 80px rgba(13,27,42,.3);animation:pop .25s ease;overflow:hidden}
+  @keyframes pop{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+  .modal-head{padding:28px 30px;background:linear-gradient(135deg,var(--brand-soft),var(--accent-soft));position:relative}
+  .modal-close{position:absolute;top:18px;right:18px;width:36px;height:36px;border-radius:50%;border:none;background:#fff;cursor:pointer;font-size:18px;color:var(--ink);box-shadow:var(--shadow);line-height:1}
+  .modal-close:hover{color:var(--brand)}
+  .modal-head .m-logo{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:20px;margin-bottom:14px}
+  .modal-head h3{font-size:24px;font-weight:800;letter-spacing:-.02em}
+  .modal-head .m-co{color:var(--ink-soft);font-weight:600;margin-top:2px}
+  .modal-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+  .m-pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:13px;font-weight:600;display:flex;gap:6px;align-items:center}
+  .m-pill svg{width:16px;height:16px;color:var(--brand)}
+  .modal-body{padding:26px 30px;max-height:46vh;overflow-y:auto}
+  .modal-body h4{font-size:15px;font-weight:700;margin:18px 0 8px}
+  .modal-body h4:first-child{margin-top:0}
+  .modal-body p{color:var(--ink-soft);font-size:14.5px;margin-bottom:8px}
+  .modal-body ul{margin:0;padding-left:20px;color:var(--ink-soft);font-size:14.5px}
+  .modal-body li{margin-bottom:6px}
+  .modal-foot{padding:18px 30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+  .modal-foot .m-sal{font-weight:800;font-size:20px}
+  .modal-foot .m-sal span{font-size:13px;font-weight:500;color:var(--ink-soft)}
+
+  /* TOAST */
+  #toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);z-index:200;background:var(--ink);color:#fff;padding:13px 22px;border-radius:12px;font-size:14.5px;font-weight:600;box-shadow:0 12px 30px rgba(13,27,42,.3);opacity:0;pointer-events:none;transition:.25s;max-width:90vw;text-align:center}
+  #toast.show{opacity:1;transform:translate(-50%,0)}
+
+  @media(max-width:960px){
+    .hero-grid{grid-template-columns:1fr;gap:26px}
+    .hero-media{display:none}
+  }
+  @media(max-width:900px){
+    .cat-grid,.jobs-grid,.tool-grid,.tips-grid{grid-template-columns:1fr 1fr}
+    .foot-grid{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:720px){
+    .nav-links,.nav-cta .btn-ghost{display:none}
+    .hamburger{display:block}
+    body.nav-open .nav-links{display:flex;position:absolute;top:70px;left:0;right:0;flex-direction:column;gap:0;background:#fff;border-bottom:1px solid var(--line);padding:8px 24px 16px;box-shadow:var(--shadow)}
+    body.nav-open .nav-links a{padding:12px 0;border-bottom:1px solid var(--line)}
+    .search-card{flex-direction:column}
+    .search-field + .search-field{border-left:none;border-top:1px solid var(--line)}
+    .search-card .btn{width:100%;justify-content:center}
+    .cat-grid,.jobs-grid,.tool-grid,.tips-grid{grid-template-columns:1fr}
+    .band{padding:40px 24px}
+    .foot-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="#"><span class="dot">◆</span> Jobs Lah</a>
+    <nav class="nav-links">
+      <a href="#jobs">Search Jobs</a>
+      <a href="#employers">Explore Companies</a>
+      <a href="#tools">Career Tools</a>
+      <a href="#tips">Career Tips</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="#tools">Resume Builder</a>
+      <a class="btn btn-primary" href="#jobs">Find Jobs</a>
+      <button class="hamburger" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow"><span class="pip"></span> Fresh vacancies added every day</span>
+        <h1 class="hero-title">Find your <span class="grad">next job</span> in Singapore &amp; Brunei</h1>
+        <p class="hero-sub">Full-time, part-time, remote and freelance roles across every industry — all in one clean, distraction-free place. No sign-up needed to start browsing.</p>
+      </div>
+      <div class="hero-media">
+        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=70" alt="People working together in an office" />
+        <div class="float f1"><div class="fic" style="background:var(--brand)">✓</div><div><b>Verified jobs</b><br><span>From trusted employers</span></div></div>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-card" id="jobs">
+      <div class="search-field">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <div style="flex:1">
+          <label>What</label>
+          <input type="text" id="searchKw" placeholder="Job title, keyword or company" />
+        </div>
+      </div>
+      <div class="search-field">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <div style="flex:1">
+          <label>Where</label>
+          <select id="searchLoc">
+            <option value="">All locations</option>
+            <optgroup label="Singapore"><option value="sg">Singapore</option></optgroup>
+            <optgroup label="Brunei"><option value="bn">Brunei</option></optgroup>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="searchBtn">Search Jobs</button>
+    </div>
+
+    <div class="trending">
+      <span class="t-label">Trending:</span>
+      <a class="chip">Work from Home</a><a class="chip">Part-time</a><a class="chip">Freelance</a>
+      <a class="chip">Internships</a><a class="chip">Fresh Graduate</a><a class="chip">Remote</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="n">1,200+</div><div class="l">Live job openings</div></div>
+      <div class="stat"><div class="n">480+</div><div class="l">Hiring companies</div></div>
+      <div class="stat"><div class="n">2</div><div class="l">Countries — SG &amp; Brunei</div></div>
+      <div class="stat"><div class="n">100%</div><div class="l">Free for jobseekers</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kick">Browse by type</div>
+      <h2>Jobs for every kind of career</h2>
+      <p>Whatever pace or arrangement you're after, there's a role waiting for you.</p>
+    </div>
+    <div class="cat-grid">
+      <a class="cat" data-cat="work from home"><span class="ic" style="background:var(--brand-soft);color:var(--brand)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></span><div><h3>Work from Home</h3><span>180 jobs</span></div></a>
+      <a class="cat" data-cat="part-time"><span class="ic" style="background:var(--accent-soft);color:var(--accent)"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2ZM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8Zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></span><div><h3>Part-time</h3><span>240 jobs</span></div></a>
+      <a class="cat" data-cat="freelance"><span class="ic" style="background:#fff1e6;color:var(--amber)"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-1.99.9-1.99 2L2 19c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2Zm-6 0h-4V4h4v2Z"/></svg></span><div><h3>Freelance</h3><span>90 jobs</span></div></a>
+      <a class="cat" data-cat="internship"><span class="ic" style="background:#eef7ff;color:#2b8bd4"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3zm-6 8.18v3.09c0 .84 3.13 2.73 6 2.73s6-1.89 6-2.73v-3.09l-6 3.27-6-3.27z"/></svg></span><div><h3>Internships</h3><span>120 jobs</span></div></a>
+      <a class="cat" data-cat="fresh graduate"><span class="ic" style="background:#f0ecff;color:#6b4bff"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span><div><h3>Fresh Graduate</h3><span>260 jobs</span></div></a>
+      <a class="cat" data-cat="remote"><span class="ic" style="background:var(--accent-soft);color:var(--accent)"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2Zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93Zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></span><div><h3>Remote</h3><span>210 jobs</span></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED JOBS -->
+<section style="padding-top:16px" id="results">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kick" id="resultsKick">Handpicked for you</div>
+      <h2 id="resultsTitle">Featured job openings</h2>
+      <p id="resultsSub">A curated selection of roles from employers hiring right now across Singapore and Brunei. <a id="clearFilters" style="display:none;color:var(--brand);font-weight:600;cursor:pointer">Clear filters ✕</a></p>
+    </div>
+    <div class="jobs-grid" id="jobsGrid"></div>
+    <div class="center"><button class="btn btn-ghost" id="loadMore">Show more jobs</button></div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="tools" id="tools">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kick">Free career tools</div>
+      <h2>Everything you need to land the role</h2>
+      <p>Practical, no-cost tools to help you apply with confidence — no account required.</p>
+    </div>
+    <div class="tool-grid">
+      <div class="tool">
+        <div class="ic" style="background:var(--brand-soft);color:var(--brand)"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6Zm2 16H8v-2h8v2Zm0-4H8v-2h8v2Zm-3-5V3.5L18.5 9H13Z"/></svg></div>
+        <h3>Resume Builder</h3><p>Pick a professionally designed template and build a polished resume in minutes.</p><a data-tool="resume">Start building →</a>
+      </div>
+      <div class="tool">
+        <div class="ic" style="background:var(--accent-soft);color:var(--accent)"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2Zm.31 14.5v1.5h-1v-1.47c-1.2-.2-2.2-.97-2.31-2.28h1.2c.1.68.66 1.2 1.62 1.2 1.03 0 1.31-.51 1.31-.94 0-.58-.31-1.13-1.87-1.5-1.74-.42-2.93-1.14-2.93-2.58 0-1.21.98-2 2.19-2.26V6.5h1v1.48c1.31.32 1.96 1.31 2 2.39h-1.2c-.04-.72-.42-1.2-1.35-1.2-.88 0-1.41.4-1.41.96 0 .49.38.81 1.87 1.19 1.49.38 2.93.99 2.93 2.61 0 1.29-.98 2.11-2.14 2.37Z"/></svg></div>
+        <h3>Salary Calculator</h3><p>Benchmark your pay against real market data for your role in SG and Brunei.</p><a data-tool="salary">Check your worth →</a>
+      </div>
+      <div class="tool">
+        <div class="ic" style="background:#fff1e6;color:var(--amber)"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2ZM9 11H7V9h2v2Zm4 0h-2V9h2v2Zm4 0h-2V9h2v2Z"/></svg></div>
+        <h3>Interview Guide</h3><p>Expert tips, common questions and model answers to help you ace the interview.</p><a data-tool="interview">Read the guide →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EMPLOYERS -->
+<section id="employers">
+  <div class="wrap">
+    <div class="sec-head" style="text-align:center;margin:0 auto 34px">
+      <div class="kick">Trusted employers</div>
+      <h2>Companies hiring on Jobs Lah</h2>
+    </div>
+    <div class="emp-row">
+      <div class="emp">TechNova</div><div class="emp">GreenCloud</div><div class="emp">Marina Bank</div>
+      <div class="emp">Studio Nine</div><div class="emp">LevelUp</div><div class="emp">GrandStay Hotel</div>
+      <div class="emp">SG Logistics</div><div class="emp">BuildRight</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section class="tools" id="tips">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kick">Career tips</div>
+      <h2>Advice to move your career forward</h2>
+      <p>Fresh, practical reads for jobseekers in Singapore and Brunei.</p>
+    </div>
+    <div class="tips-grid">
+      <article class="tip">
+        <div class="cover" style="background-image:url('https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=800&q=70')"></div>
+        <div class="body"><div class="meta">Job Search</div><h3>How to write a resume that gets shortlisted in 2025</h3><a data-article="0">Read more →</a></div>
+      </article>
+      <article class="tip">
+        <div class="cover" style="background-image:url('https://images.unsplash.com/photo-1573497491765-dccce02b29df?auto=format&fit=crop&w=800&q=70')"></div>
+        <div class="body"><div class="meta">Interviews</div><h3>The 10 interview questions you should always prepare for</h3><a data-article="1">Read more →</a></div>
+      </article>
+      <article class="tip">
+        <div class="cover" style="background-image:url('https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=70')"></div>
+        <div class="body"><div class="meta">Career Growth</div><h3>Switching industries? How to leverage your transferable skills</h3><a data-article="2">Read more →</a></div>
+      </article>
+    </div>
+    <div class="center"><button class="btn btn-ghost" id="moreTips">View more tips</button></div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section>
+  <div class="wrap">
+    <div class="band">
+      <h2>Your next opportunity is one search away</h2>
+      <p>Browse thousands of jobs across Singapore and Brunei — completely free, no account needed.</p>
+      <a class="btn" href="#jobs">Search Jobs Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="logo" href="#" style="margin-bottom:14px"><span class="dot">◆</span> Jobs Lah</a>
+        <p style="font-size:14px;max-width:34ch">Find jobs in Singapore &amp; Brunei — the clean, free way to search vacancies and grow your career.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Find Jobs</h4>
+        <a href="#jobs">Search Jobs</a>
+        <a data-cat="work from home">Work from Home</a>
+        <a data-cat="part-time">Part-time Jobs</a>
+        <a data-cat="internship">Internships</a>
+        <a data-cat="freelance">Freelance Jobs</a>
+      </div>
+      <div class="foot-col">
+        <h4>Career Tools</h4>
+        <a data-tool="resume">Resume Builder</a>
+        <a data-tool="resume">Resume Templates</a>
+        <a data-tool="salary">Salary Calculator</a>
+        <a data-tool="interview">Interview Guide</a>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <a data-info="about">About Us</a>
+        <a data-scroll="#employers">Explore Companies</a>
+        <a data-scroll="#tips">Career Tips</a>
+        <a data-info="contact">Contact Us</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Jobs Lah. Jobs in Singapore &amp; Brunei.</span>
+      <span><a data-info="privacy">Privacy</a> · <a data-info="terms">Terms</a> · <a data-info="contact">Contact</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+const svg = p => `<svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd">${p}</svg>`;
+const IC = {
+  briefcase: svg('<path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-1.99.9-1.99 2L2 19c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2Zm-6 0h-4V4h4v2Z"/>'),
+  pin: svg('<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/>'),
+  chart: svg('<path d="M4 9h4v11H4zM10 4h4v16h-4zM16 13h4v7h-4z"/>'),
+  calendar: svg('<path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2Zm0 16H5V10h14v10ZM5 8V6h14v2H5Z"/>'),
+  users: svg('<path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3Zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3Zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5Zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5Z"/>'),
+  bookmark: svg('<path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2Z"/>')
+};
+
+/* ---------- category detail templates ---------- */
+const CAT = {
+  tech:{about:c=>`${c} builds modern software used across the region. Join a collaborative engineering team that ships often and values clean, maintainable code.`,
+    resp:["Design, build and maintain features across the product","Write clean, well-tested and documented code","Collaborate with product and design on requirements","Review peers' work and improve engineering standards"],
+    req:["Relevant diploma/degree or equivalent experience","Strong fundamentals in your core stack","Track record shipping production software","Good communication and teamwork"],
+    perks:["Flexible / hybrid work","Annual learning budget","Health insurance","Performance bonus"]},
+  data:{about:c=>`${c} turns raw data into decisions. You'll work closely with business teams to surface insights that drive real outcomes.`,
+    resp:["Build dashboards and reports for stakeholders","Clean, model and analyse datasets","Translate business questions into analysis","Present findings clearly to non-technical teams"],
+    req:["Degree in a quantitative field or equivalent","SQL and spreadsheet proficiency","Experience with a BI or analytics tool","Sharp attention to detail"],
+    perks:["Hybrid work","Learning budget","Health coverage","Performance bonus"]},
+  marketing:{about:c=>`${c} is growing its brand and reach. This role owns campaigns end to end, from idea to measurable result.`,
+    resp:["Plan and run multi-channel campaigns","Create copy and briefs for content and ads","Track performance and report on key metrics","Work with design, sales and partners"],
+    req:["Diploma/degree in Marketing or related","1–3 years relevant experience","Strong written English","Familiarity with analytics and ad tools"],
+    perks:["Hybrid work","Training budget","Health coverage","Team activities"]},
+  finance:{about:c=>`${c} keeps its finances accurate and compliant. You'll support day-to-day accounting and reporting.`,
+    resp:["Record transactions and reconcile accounts","Prepare invoices, claims and reports","Assist with monthly and year-end closing","Ensure compliance with policies"],
+    req:["Diploma/degree in Accounting or Finance","Proficiency in Excel and accounting software","Meticulous and organised","Relevant experience for the level"],
+    perks:["Annual bonus","Medical & insurance","Structured training","Clear progression"]},
+  admin:{about:c=>`${c} needs a dependable person to keep the office running smoothly and support the wider team.`,
+    resp:["Handle correspondence, scheduling and filing","Support meetings and travel arrangements","Maintain accurate records and supplies","Assist colleagues with day-to-day admin"],
+    req:["GCE 'O'/'A' Level or Diploma","Organised with good communication","Comfortable with MS Office","Friendly and reliable"],
+    perks:["Regular office hours","Medical coverage","Annual leave","Supportive team"]},
+  sales:{about:c=>`${c} is expanding its customer base. You'll build relationships and close deals in a supportive, target-driven team.`,
+    resp:["Identify and follow up on leads","Present products and close sales","Build long-term customer relationships","Hit and exceed monthly targets"],
+    req:["Sales or customer-facing experience preferred","Confident communicator","Self-motivated and resilient","Comfortable with targets"],
+    perks:["Attractive commission","Uncapped earnings","Training provided","Career growth"]},
+  retail:{about:c=>`${c} delivers a great in-store experience. You'll be the friendly face customers remember.`,
+    resp:["Serve customers and process sales","Keep the store tidy and well-stocked","Handle enquiries and returns","Support promotions and displays"],
+    req:["No experience needed — training provided","Friendly and energetic","Able to work weekends/shifts","Team player"],
+    perks:["Staff discount","Flexible shifts","Tips & incentives","Fun team"]},
+  service:{about:c=>`${c} puts customers first. You'll help people quickly and warmly across calls, chat and email.`,
+    resp:["Respond to customer enquiries promptly","Resolve issues and escalate when needed","Keep accurate case notes","Meet quality and response targets"],
+    req:["Good spoken and written English","Patient and empathetic","Comfortable with computer systems","Entry level welcome"],
+    perks:["Shift allowance","Medical coverage","Training provided","Work-from-home options"]},
+  hospitality:{about:c=>`${c} is known for warm service and great food. Join a lively team that takes pride in every guest experience.`,
+    resp:["Prepare and serve food and drinks to standard","Keep work areas clean and safe","Deliver friendly, attentive service","Support the team during busy periods"],
+    req:["No experience needed — training provided","Positive, hands-on attitude","Able to work shifts and weekends","Team player"],
+    perks:["Staff meals","Tips & incentives","Flexible shifts","Friendly team"]},
+  healthcare:{about:c=>`${c} provides caring, quality healthcare. You'll support patients and clinicians in a compassionate environment.`,
+    resp:["Assist clinicians and care for patients","Administer treatments within your scope","Keep accurate patient records","Educate patients on care plans"],
+    req:["Relevant qualification and valid licence","Compassionate and detail-oriented","Good communication skills","Experience for the level"],
+    perks:["Medical coverage","No-night-shift options","Annual increment","Supportive team"]},
+  education:{about:c=>`${c} helps students learn and grow. You'll create a positive, engaging learning environment.`,
+    resp:["Plan and deliver engaging lessons","Track and support student progress","Communicate with parents and staff","Create a safe, caring environment"],
+    req:["Relevant qualification or subject expertise","Patient and encouraging","Good communication skills","Passion for teaching"],
+    perks:["Term breaks","Training and development","Rewarding work","Supportive team"]},
+  logistics:{about:c=>`${c} keeps goods moving reliably. You'll coordinate inbound and outbound flow and keep operations smooth.`,
+    resp:["Coordinate receiving and dispatch","Maintain accurate inventory records","Liaise with drivers and suppliers","Support stock counts and safety"],
+    req:["Experience in logistics or warehousing","Familiar with inventory systems","Organised and hands-on","Able to work in a fast-paced setting"],
+    perks:["Overtime pay","Transport provided","Annual bonus","Safety-first culture"]},
+  driver:{about:c=>`${c} depends on safe, on-time deliveries. You'll be the reliable face customers see at the door.`,
+    resp:["Deliver goods safely and on schedule","Plan efficient routes","Handle items with care","Keep delivery records accurate"],
+    req:["Valid driving licence for the class","Clean driving record","Punctual and reliable","Knowledge of local roads"],
+    perks:["Fuel/transport allowance","Overtime pay","Medical coverage","Supportive team"]},
+  engineering:{about:c=>`${c} designs and builds to a high standard. You'll apply solid engineering fundamentals to real projects.`,
+    resp:["Design, plan and review technical work","Ensure quality and safety standards","Coordinate with contractors and teams","Solve problems on site and in design"],
+    req:["Degree in the relevant engineering field","Relevant project experience","Strong technical and analytical skills","Good communication"],
+    perks:["Project allowances","Medical & insurance","Professional development","Career growth"]},
+  construction:{about:c=>`${c} delivers projects safely and on time. You'll keep work on track and to standard on the ground.`,
+    resp:["Supervise and coordinate site work","Enforce safety and quality standards","Track progress against schedule","Liaise with workers and suppliers"],
+    req:["Relevant trade or supervisory experience","Knowledge of site safety","Hands-on and dependable","Good coordination skills"],
+    perks:["Site allowances","Overtime pay","Medical coverage","Stable projects"]},
+  design:{about:c=>`${c} cares about craft and detail. You'll shape work that looks great and works even better.`,
+    resp:["Produce polished, on-brand design work","Turn briefs into clear visual solutions","Collaborate with the wider team","Prepare files for delivery"],
+    req:["Portfolio showing strong craft","Proficiency in industry tools (Figma/Adobe)","Good eye for layout and type","Open to feedback"],
+    perks:["Hybrid / flexible work","Creative projects","Learning budget","Great team"]},
+  hr:{about:c=>`${c} invests in its people. You'll help hire, support and grow a happy, high-performing team.`,
+    resp:["Support recruitment end to end","Handle onboarding and employee queries","Maintain accurate HR records","Assist with engagement initiatives"],
+    req:["Diploma/degree in HR or related","People-focused and discreet","Organised with good communication","Relevant experience for the level"],
+    perks:["Hybrid work","Medical coverage","Training budget","Supportive culture"]},
+  ops:{about:c=>`${c} runs on smooth operations. You'll keep processes efficient and projects moving.`,
+    resp:["Coordinate day-to-day operations","Track tasks, timelines and vendors","Improve processes and remove blockers","Report progress to stakeholders"],
+    req:["Organised and proactive","Good coordination and communication","Comfortable with spreadsheets/tools","Relevant experience for the level"],
+    perks:["Hybrid work","Medical coverage","Annual bonus","Growth opportunities"]},
+  security:{about:c=>`${c} keeps people and premises safe. You'll be a calm, watchful presence on the ground.`,
+    resp:["Monitor premises and control access","Respond to incidents calmly","Keep clear activity logs","Follow safety procedures"],
+    req:["No experience needed — training provided","Alert and dependable","Able to work shifts","Physically fit"],
+    perks:["Shift allowance","Overtime pay","Uniform provided","Stable role"]},
+  legal:{about:c=>`${c} advises clients with care and rigour. You'll support matters end to end in a professional team.`,
+    resp:["Draft and review legal documents","Support case and matter management","Conduct legal research","Liaise with clients and courts"],
+    req:["Law degree / relevant qualification","Strong writing and research skills","Meticulous and discreet","Relevant experience for the level"],
+    perks:["Structured mentorship","Medical & insurance","Professional development","Clear progression"]}
+};
+CAT.property = CAT.sales;
+
+/* ---------- job builder (transforms raw jobs.json entries) ---------- */
+const PAL=["#1857ff","#00c2a8","#ff8a3d","#6b4bff","#2b8bd4","#d4372b","#2f8f4e","#8a5cff","#e8578a","#0d9488","#b45309","#4f46e5"];
+const POSTED=["Today","1 day ago","2 days ago","3 days ago","4 days ago","5 days ago","1 week ago","2 weeks ago"];
+function initials(n){return n.replace(/[^A-Za-z ]/g,'').split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();}
+let _id=0;
+function build(o){
+  _id++;
+  const t=o.type.toLowerCase(), m=o.mode.toLowerCase();
+  const f=[o.cat,t,m];
+  if(m==='remote') f.push('remote','work from home');
+  if(t==='internship') f.push('internship','fresh graduate');
+  if(t==='freelance') f.push('freelance');
+  if(t==='part-time') f.push('part-time');
+  if(/entry|fresh|no experience|student|licence/i.test(o.exp)) f.push('fresh graduate');
+  return {id:_id,logo:initials(o.company),color:PAL[_id%PAL.length],title:o.title,company:o.company,
+    location:o.location,country:o.country,type:o.type,mode:o.mode,exp:o.exp,salary:o.salary,
+    per:o.per||'per month',cat:o.cat,posted:POSTED[_id%POSTED.length],isNew:(_id%POSTED.length)<=2,
+    applicants:((_id*7)%48)+6,tags:[o.type,o.mode,o.exp],f};
+}
+
+/* ---------- state ---------- */
+const grid=document.getElementById('jobsGrid'), overlay=document.getElementById('modalOverlay'),
+      modal=document.getElementById('modal'), loadMore=document.getElementById('loadMore'), PAGE=9;
+let JOBS=[], filtered=[], shown=PAGE;
+
+function toast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';document.body.appendChild(t);}t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);}
+window.__toast=toast;
+
+function cardHTML(j){
+  const badge=j.isNew?'<span class="badge-new">New</span>':'';
+  return `<div class="job" data-id="${j.id}">
+    <div class="job-top"><div class="job-logo-wrap"><div class="job-logo" style="background:${j.color}">${j.logo}</div><div>${badge}<div class="posted">${j.posted}</div></div></div>
+      <button class="save" title="Save job" aria-label="Save job" onclick="event.stopPropagation();this.classList.toggle('saved');window.__toast(this.classList.contains('saved')?'Saved to your list':'Removed from list')">${IC.bookmark}</button></div>
+    <div><h3>${j.title}</h3><div class="co">${j.company} · ${j.location}</div></div>
+    <div class="job-tags">${j.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+    <div class="job-foot"><span class="salary">${j.salary}</span><a class="apply">View details →</a></div></div>`;
+}
+
+function render(){
+  if(filtered.length===0){
+    grid.innerHTML=`<div class="empty"><div class="empty-ic">${IC.briefcase}</div><h3>No jobs match your search</h3><p>Try a different keyword or location.</p><button class="btn btn-ghost" id="emptyClear">Clear filters</button></div>`;
+    loadMore.style.display='none';
+    document.getElementById('emptyClear').onclick=()=>clearFilters();
+    return;
+  }
+  grid.innerHTML=filtered.slice(0,shown).map(cardHTML).join('');
+  grid.querySelectorAll('.job').forEach(el=>el.addEventListener('click',()=>openModal(+el.dataset.id)));
+  loadMore.style.display=shown>=filtered.length?'none':'inline-flex';
+  loadMore.textContent=`Show more jobs (${filtered.length-Math.min(shown,filtered.length)} more)`;
+}
+
+function applyFilter(kw,loc,cat){
+  kw=(kw||'').trim().toLowerCase();
+  filtered=JOBS.filter(j=>{
+    const hay=(j.title+' '+j.company+' '+j.location+' '+j.tags.join(' ')+' '+j.f.join(' ')).toLowerCase();
+    return (!kw||hay.includes(kw)) && (!loc||j.country===loc) && (!cat||j.f.includes(cat));
+  });
+  shown=PAGE; render();
+  const active=kw||loc||cat;
+  const kick=document.getElementById('resultsKick'),title=document.getElementById('resultsTitle'),
+        sub=document.getElementById('resultsSub'),clear=document.getElementById('clearFilters');
+  if(active){
+    kick.textContent='Search results';
+    title.textContent=filtered.length+(filtered.length===1?' job found':' jobs found');
+    const label=cat?`“${cat}”`:((kw?`“${kw}”`:'')+(loc?((kw?' · ':'')+(loc==='sg'?'Singapore':'Brunei')):''));
+    sub.innerHTML=`Showing matches for ${label||'your filters'}. `; sub.appendChild(clear);
+    clear.style.display='inline';
+    document.getElementById('results').scrollIntoView({behavior:'smooth'});
+  }else{
+    kick.textContent='Handpicked for you'; title.textContent='Featured job openings';
+    sub.innerHTML='A curated selection of roles from employers hiring right now across Singapore and Brunei. '; sub.appendChild(clear);
+    clear.style.display='none';
+  }
+}
+function clearFilters(){document.getElementById('searchKw').value='';document.getElementById('searchLoc').value='';applyFilter('','','');}
+function runSearch(){applyFilter(document.getElementById('searchKw').value,document.getElementById('searchLoc').value,'');}
+
+function openModal(id){
+  const j=JOBS.find(x=>x.id===id), d=CAT[j.cat]||CAT.ops;
+  modal.innerHTML=`
+    <div class="modal-head"><button class="modal-close" aria-label="Close">✕</button>
+      <div class="m-logo" style="background:${j.color}">${j.logo}</div>
+      <h3>${j.title}</h3><div class="m-co">${j.company} · ${j.location}</div>
+      <div class="modal-meta">
+        <span class="m-pill">${IC.briefcase} ${j.type}</span><span class="m-pill">${IC.pin} ${j.mode}</span>
+        <span class="m-pill">${IC.chart} ${j.exp}</span><span class="m-pill">${IC.calendar} ${j.posted}</span>
+        <span class="m-pill">${IC.users} ${j.applicants} applicants</span></div></div>
+    <div class="modal-body">
+      <h4>About the role</h4><p>${d.about(j.company)}</p>
+      <h4>What you'll do</h4><ul>${d.resp.map(r=>`<li>${r}</li>`).join('')}</ul>
+      <h4>What we're looking for</h4><ul>${d.req.map(r=>`<li>${r}</li>`).join('')}</ul>
+      <h4>Perks &amp; benefits</h4><ul>${d.perks.map(p=>`<li>${p}</li>`).join('')}</ul></div>
+    <div class="modal-foot"><div class="m-sal">${j.salary} <span>${j.per}</span></div>
+      <div style="display:flex;gap:10px"><button class="btn btn-ghost" id="mSave">Save</button><button class="btn btn-primary" id="mApply">Apply now →</button></div></div>`;
+  modal.querySelector('.modal-close').onclick=closeModal;
+  modal.querySelector('#mSave').onclick=()=>toast('Saved “'+j.title+'” to your list');
+  modal.querySelector('#mApply').onclick=()=>{closeModal();toast('Application started for “'+j.title+'” — good luck!');};
+  overlay.classList.add('open'); document.body.style.overflow='hidden';
+}
+
+/* ---------- info modal (about / privacy / terms / contact) ---------- */
+const INFO={
+  about:{t:'About Jobs Lah',b:`<p>Jobs Lah is a job portal focused on <b>Singapore and Brunei</b>. Our mission is simple: make job searching fast, clear and free for everyone.</p><p>We bring together full-time, part-time, remote, freelance and internship roles across every industry — from tech and finance to hospitality, healthcare and the trades — so you can find the right fit in one place.</p><p>No sign-up is needed to browse, and jobseekers never pay a cent.</p>`},
+  privacy:{t:'Privacy Policy',b:`<p>This is a demo landing page, so no personal data is collected, stored or shared.</p><p>In a live version, Jobs Lah would only collect the information needed to help you search and apply for jobs, would never sell your data, and would let you request deletion at any time.</p><p>Cookies would be limited to what keeps the site working, with non-essential tracking off by default.</p>`},
+  terms:{t:'Terms of Service',b:`<p>This page is a demonstration and does not offer real job listings or services.</p><p>In a live version, these terms would explain acceptable use of the portal, that listings are provided by third-party employers, and that Jobs Lah is not a recruitment agency and does not guarantee employment.</p><p>Always verify employers independently before sharing personal details.</p>`},
+  contact:{t:'Contact Us',b:`<p>We'd love to hear from you.</p><p><b>Email:</b> hello@jobslah.example<br><b>Support:</b> support@jobslah.example</p><p>This is a demo page — the addresses above are placeholders and are not monitored.</p>`}
+};
+function openInfo(key){
+  const i=INFO[key]; if(!i) return;
+  modal.innerHTML=`<div class="modal-head"><button class="modal-close" aria-label="Close">✕</button><h3>${i.t}</h3></div>
+    <div class="modal-body">${i.b}</div>
+    <div class="modal-foot"><span style="font-size:13px;color:var(--ink-soft)">Jobs Lah · Singapore &amp; Brunei</span><button class="btn btn-primary" id="infoOk">Got it</button></div>`;
+  modal.querySelector('.modal-close').onclick=closeModal;
+  modal.querySelector('#infoOk').onclick=closeModal;
+  overlay.classList.add('open'); document.body.style.overflow='hidden';
+}
+function closeModal(){overlay.classList.remove('open');document.body.style.overflow='';}
+
+/* ---------- career tips: full articles ---------- */
+const ARTICLES=[
+  {tag:'Job Search',title:'How to write a resume that gets shortlisted in 2025',read:'5 min read',
+   body:`<p>Recruiters spend seconds on each resume. These fundamentals help yours make the cut.</p>
+   <h4>1. Lead with a sharp summary</h4><p>Open with 2–3 lines stating your role, years of experience and one standout result. Skip generic phrases like “hardworking team player”.</p>
+   <h4>2. Quantify your impact</h4><p>Numbers stand out. “Grew sales 30% in 6 months” beats “responsible for sales”. Add figures wherever you can — revenue, time saved, people managed.</p>
+   <h4>3. Tailor to each job</h4><p>Mirror the keywords in the job ad. Many employers filter resumes, so matching the exact terms (e.g. “stakeholder management”) helps you get seen.</p>
+   <h4>4. Keep it clean and one to two pages</h4><p>Use a simple layout, consistent fonts and clear headings. Save as PDF so formatting doesn't break.</p>
+   <h4>5. Proofread twice</h4><p>Typos are the fastest way to the reject pile. Read it aloud, then ask a friend to check.</p>
+   <p><b>Tip:</b> Use our free Resume Builder to apply all of this in minutes.</p>`},
+  {tag:'Interviews',title:'The 10 interview questions you should always prepare for',read:'6 min read',
+   body:`<p>You can't predict every question, but these ten come up again and again. Prepare a concise story for each.</p>
+   <ul>
+   <li><b>Tell me about yourself.</b> A 60-second pitch: who you are, what you do, why you're here.</li>
+   <li><b>Why do you want this role?</b> Link your goals to the company and the job.</li>
+   <li><b>What are your strengths?</b> Pick two relevant ones with proof.</li>
+   <li><b>What's a weakness?</b> Choose a real one and show how you're improving it.</li>
+   <li><b>Describe a challenge you overcame.</b> Use the STAR method: Situation, Task, Action, Result.</li>
+   <li><b>Where do you see yourself in 3–5 years?</b> Show ambition that fits the role.</li>
+   <li><b>Why are you leaving your current job?</b> Stay positive — focus on growth, not complaints.</li>
+   <li><b>Tell me about a time you worked in a team.</b> Highlight your specific contribution.</li>
+   <li><b>What are your salary expectations?</b> Give a researched range (try our Salary Calculator).</li>
+   <li><b>Do you have any questions for us?</b> Always yes — ask about the team, success measures or growth.</li>
+   </ul>
+   <p><b>Golden rule:</b> answer with specific examples, not general claims.</p>`},
+  {tag:'Career Growth',title:'Switching industries? How to leverage your transferable skills',read:'5 min read',
+   body:`<p>Changing industries feels risky, but most of your value moves with you. Here's how to reframe it.</p>
+   <h4>Identify your transferable skills</h4><p>Communication, project management, problem-solving, data analysis and customer handling apply almost everywhere. List yours with concrete examples.</p>
+   <h4>Rewrite your story</h4><p>On your resume and in interviews, translate past achievements into the language of the new industry. Focus on outcomes, not job titles.</p>
+   <h4>Close the gap</h4><p>Spot the one or two hard skills the new field needs and pick them up through short courses or side projects.</p>
+   <h4>Network into the field</h4><p>Talk to people already doing the job. A referral often matters more than a perfect background.</p>
+   <h4>Start where your experience gives an edge</h4><p>Target roles that value your old industry — e.g. a nurse moving into healthcare tech, or a teacher into corporate training.</p>
+   <p><b>Remember:</b> employers hire for potential and attitude, not just a matching label.</p>`}
+];
+function openArticle(i){
+  const a=ARTICLES[i]; if(!a) return;
+  modal.innerHTML=`<div class="modal-head"><button class="modal-close" aria-label="Close">✕</button>
+    <div class="meta" style="font-size:12.5px;color:var(--brand);font-weight:700;text-transform:uppercase;letter-spacing:.04em">${a.tag} · ${a.read}</div>
+    <h3 style="margin-top:6px">${a.title}</h3></div>
+    <div class="modal-body">${a.body}</div>
+    <div class="modal-foot"><span style="font-size:13px;color:var(--ink-soft)">Jobs Lah · Career Tips</span><button class="btn btn-primary" id="artOk">Done</button></div>`;
+  modal.querySelector('.modal-close').onclick=closeModal;
+  modal.querySelector('#artOk').onclick=closeModal;
+  overlay.classList.add('open'); document.body.style.overflow='hidden';
+}
+
+/* ---------- tool: Salary Calculator (computes from real listing data) ---------- */
+const CATLABEL={tech:'Tech & IT',data:'Data & Analytics',marketing:'Marketing',finance:'Finance & Accounting',admin:'Admin & Office',sales:'Sales & Business Dev',retail:'Retail',service:'Customer Service',hospitality:'F&B & Hospitality',healthcare:'Healthcare',education:'Education',logistics:'Logistics & Warehouse',driver:'Driving & Delivery',engineering:'Engineering',construction:'Construction & Trades',design:'Design & Creative',hr:'Human Resources',ops:'Operations',security:'Security',legal:'Legal',property:'Property'};
+function parseRange(s){const n=(s.replace(/,/g,'').match(/\d+(?:\.\d+)?/g)||[]).map(Number);if(n.length>=2)return[n[0],n[1]];if(n.length===1)return[n[0],n[0]];return null;}
+function avg(a){return a.reduce((x,y)=>x+y,0)/a.length;}
+function openSalary(){
+  const cats=[...new Set(JOBS.map(j=>j.cat))].sort((a,b)=>(CATLABEL[a]||a).localeCompare(CATLABEL[b]||b));
+  modal.innerHTML=`<div class="modal-head"><button class="modal-close" aria-label="Close">✕</button>
+    <h3>Salary Calculator</h3><div class="m-co">Estimate a monthly range from live Jobs Lah listings</div></div>
+    <div class="modal-body">
+      <label style="font-size:13px;font-weight:700">Industry</label>
+      <select id="sc-cat" style="width:100%;margin:6px 0 16px;padding:11px;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:15px">
+        ${cats.map(c=>`<option value="${c}">${CATLABEL[c]||c}</option>`).join('')}
+      </select>
+      <label style="font-size:13px;font-weight:700">Experience level</label>
+      <select id="sc-exp" style="width:100%;margin:6px 0 4px;padding:11px;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:15px">
+        <option value="entry">Entry level / Fresh graduate</option>
+        <option value="junior" selected>1–3 years</option>
+        <option value="mid">3–5 years</option>
+        <option value="senior">5+ years / Manager</option>
+      </select>
+      <div id="sc-result" style="margin-top:22px;text-align:center;background:var(--bg-soft);border-radius:16px;padding:26px 20px">
+        <div style="font-size:13px;color:var(--ink-soft);font-weight:600">Estimated monthly salary</div>
+        <div id="sc-amount" style="font-size:32px;font-weight:800;letter-spacing:-.02em;margin:6px 0;color:var(--brand)">—</div>
+        <div id="sc-note" style="font-size:12.5px;color:var(--ink-soft)">Select options and calculate</div>
+      </div>
+    </div>
+    <div class="modal-foot"><span style="font-size:12.5px;color:var(--ink-soft)">Estimates only — actual pay varies</span><button class="btn btn-primary" id="sc-go">Calculate</button></div>`;
+  modal.querySelector('.modal-close').onclick=closeModal;
+  modal.querySelector('#sc-go').onclick=()=>{
+    const cat=modal.querySelector('#sc-cat').value, exp=modal.querySelector('#sc-exp').value;
+    const monthly=JOBS.filter(j=>j.cat===cat&&j.per==='per month').map(j=>parseRange(j.salary)).filter(Boolean);
+    let lo,hi;
+    if(monthly.length){lo=avg(monthly.map(r=>r[0]));hi=avg(monthly.map(r=>r[1]));}else{lo=2500;hi=3500;}
+    const f={entry:.82,junior:1,mid:1.28,senior:1.65}[exp];
+    lo=Math.round(lo*f/100)*100; hi=Math.round(hi*f/100)*100;
+    modal.querySelector('#sc-amount').textContent=`S$${lo.toLocaleString()} – ${hi.toLocaleString()}`;
+    modal.querySelector('#sc-note').textContent=`Based on ${monthly.length||'similar'} ${CATLABEL[cat]} listing${monthly.length===1?'':'s'} on Jobs Lah`;
+  };
+  overlay.classList.add('open'); document.body.style.overflow='hidden';
+}
+
+/* ---------- tool: Interview Guide ---------- */
+function openInterview(){ openArticle(1); }
+
+/* ---------- tool: Resume Builder (fill form -> live preview -> print/download) ---------- */
+function openResume(){
+  modal.innerHTML=`<div class="modal-head"><button class="modal-close" aria-label="Close">✕</button>
+    <h3>Resume Builder</h3><div class="m-co">Fill in your details, preview, then download</div></div>
+    <div class="modal-body">
+      <div style="display:grid;gap:10px">
+        <input id="rb-name" placeholder="Full name" class="rb-in" />
+        <input id="rb-role" placeholder="Job title (e.g. Marketing Executive)" class="rb-in" />
+        <div style="display:flex;gap:10px"><input id="rb-email" placeholder="Email" class="rb-in" style="flex:1"/><input id="rb-phone" placeholder="Phone" class="rb-in" style="flex:1"/></div>
+        <textarea id="rb-summary" placeholder="Professional summary (1–3 sentences)" class="rb-in" rows="3"></textarea>
+        <textarea id="rb-exp" placeholder="Work experience — one item per line" class="rb-in" rows="3"></textarea>
+        <input id="rb-skills" placeholder="Skills, comma separated" class="rb-in" />
+      </div>
+      <div style="margin-top:18px;font-size:13px;font-weight:700">Live preview</div>
+      <div id="rb-preview" style="margin-top:8px;border:1px solid var(--line);border-radius:12px;padding:20px;background:#fff;font-size:13px"></div>
+    </div>
+    <div class="modal-foot"><span style="font-size:12.5px;color:var(--ink-soft)">100% free · nothing is uploaded</span><button class="btn btn-primary" id="rb-print">Download / Print PDF</button></div>`;
+  const style=document.createElement('style');
+  style.textContent='.rb-in{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:14px}';
+  modal.appendChild(style);
+  const g=id=>modal.querySelector(id).value.trim();
+  function previewHTML(){
+    const name=g('#rb-name')||'Your Name', role=g('#rb-role')||'Your Job Title';
+    const contact=[g('#rb-email'),g('#rb-phone')].filter(Boolean).join('  ·  ');
+    const summary=g('#rb-summary'), exp=g('#rb-exp').split('\n').filter(Boolean), skills=g('#rb-skills').split(',').map(s=>s.trim()).filter(Boolean);
+    return `<div style="font-family:Georgia,serif">
+      <div style="font-size:22px;font-weight:700">${name}</div>
+      <div style="color:#1857ff;font-weight:600;margin-bottom:4px">${role}</div>
+      ${contact?`<div style="font-size:12px;color:#555;margin-bottom:12px">${contact}</div>`:''}
+      ${summary?`<div style="margin:10px 0"><b>Summary</b><div>${summary}</div></div>`:''}
+      ${exp.length?`<div style="margin:10px 0"><b>Experience</b><ul style="margin:4px 0 0 18px">${exp.map(e=>`<li>${e}</li>`).join('')}</ul></div>`:''}
+      ${skills.length?`<div style="margin:10px 0"><b>Skills</b><div>${skills.join(' · ')}</div></div>`:''}
+    </div>`;
+  }
+  const prev=modal.querySelector('#rb-preview');
+  function upd(){prev.innerHTML=previewHTML();}
+  modal.querySelectorAll('.rb-in').forEach(el=>el.addEventListener('input',upd)); upd();
+  modal.querySelector('.modal-close').onclick=closeModal;
+  modal.querySelector('#rb-print').onclick=()=>{
+    const w=window.open('','_blank');
+    w.document.write(`<html><head><title>Resume</title></head><body style="max-width:700px;margin:40px auto;padding:0 20px">${previewHTML()}<script>onload=()=>print()<\/script></body></html>`);
+    w.document.close();
+  };
+  overlay.classList.add('open'); document.body.style.overflow='hidden';
+}
+const TOOLS={resume:openResume,salary:openSalary,interview:openInterview};
+
+/* ---------- wire everything ---------- */
+overlay.addEventListener('click',e=>{if(e.target===overlay)closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+loadMore.addEventListener('click',()=>{shown+=PAGE;render();});
+document.getElementById('searchBtn').addEventListener('click',runSearch);
+document.getElementById('searchKw').addEventListener('keydown',e=>{if(e.key==='Enter')runSearch();});
+document.getElementById('clearFilters').addEventListener('click',()=>clearFilters());
+
+document.querySelectorAll('.trending .chip').forEach(chip=>chip.addEventListener('click',()=>{
+  document.getElementById('searchKw').value=chip.textContent.trim();document.getElementById('searchLoc').value='';
+  applyFilter('','',chip.textContent.trim().toLowerCase());
+}));
+document.querySelectorAll('.cat[data-cat]').forEach(c=>c.addEventListener('click',e=>{
+  e.preventDefault();document.getElementById('searchKw').value='';document.getElementById('searchLoc').value='';
+  applyFilter('','',c.dataset.cat);
+}));
+document.querySelectorAll('[data-cat]:not(.cat)').forEach(a=>a.addEventListener('click',e=>{
+  e.preventDefault();document.getElementById('searchKw').value='';document.getElementById('searchLoc').value='';
+  applyFilter('','',a.dataset.cat);
+}));
+document.querySelectorAll('[data-scroll]').forEach(a=>a.addEventListener('click',e=>{
+  e.preventDefault();document.querySelector(a.dataset.scroll).scrollIntoView({behavior:'smooth'});
+}));
+document.querySelectorAll('[data-info]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openInfo(a.dataset.info);}));
+document.querySelectorAll('[data-tool]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();(TOOLS[a.dataset.tool]||(()=>{}))();}));
+document.querySelectorAll('[data-article]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openArticle(+a.dataset.article);}));
+document.getElementById('moreTips').addEventListener('click',()=>toast('That\'s all the tips for now — more coming soon'));
+document.querySelectorAll('.emp').forEach(el=>el.addEventListener('click',()=>{
+  document.getElementById('searchKw').value=el.textContent.trim();document.getElementById('searchLoc').value='';runSearch();
+}));
+const burger=document.querySelector('.hamburger');
+if(burger){burger.addEventListener('click',()=>document.body.classList.toggle('nav-open'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('nav-open')));}
+
+/* ---------- load jobs from jobs.json ---------- */
+grid.innerHTML='<div class="empty"><p>Loading jobs…</p></div>';
+fetch('jobs.json')
+  .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
+  .then(data=>{_id=0;JOBS=data.map(build);filtered=JOBS.slice();shown=PAGE;render();})
+  .catch(()=>{grid.innerHTML='<div class="empty"><div class="empty-ic">'+IC.briefcase+'</div><h3>Couldn\'t load job listings</h3><p>Open this page through a web server (e.g. http://localhost) so jobs.json can load.</p></div>';loadMore.style.display='none';});
+</script>
+</body>
+</html>
